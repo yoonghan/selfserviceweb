@@ -5,6 +5,6 @@
 <c:set var="DESKTOP_DEFAULT_HEIGHT" value="480"/>
 <c:set var="DESKTOP_DEFAULT_WIDTH" value="650"/>
 
-<c:set var="IMAGE_LOCATION" value="${func:getServerLocation()}/"/>
+<c:set var="IMAGE_LOCATION" value="${func:getServerLocation()}/img/"/>
 
 <!doctype html>

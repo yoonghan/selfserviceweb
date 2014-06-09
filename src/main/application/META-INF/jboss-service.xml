@@ -2,6 +2,6 @@
 
 <server>
   <mbean code="com.self.service.mbean.cmd.ServerSwitch" name="self.service:service=ServerSwitch">
-    <attribute name="Servers">http://selfserviceweb-yoonghan.rhcloud.com/webby/img|http://selfserviceweb-yoonghan.rhcloud.com/webby/img</attribute>
+    <attribute name="Servers">http://staticcontentfirst-yoonghan.rhcloud.com/webby|http://staticcontentsec-yoonghan.rhcloud.com/webby</attribute>
   </mbean>
 </server>
