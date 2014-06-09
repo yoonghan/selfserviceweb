@@ -1,0 +1,10 @@
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
+<%@ taglib uri="http://com.self.care/functions" prefix="func"%>
+
+<c:set var="DESKTOP_DEFAULT_HEIGHT" value="480"/>
+<c:set var="DESKTOP_DEFAULT_WIDTH" value="650"/>
+
+<c:set var="IMAGE_LOCATION" value="${func:getServerLocation()}/"/>
+
+<!doctype html>

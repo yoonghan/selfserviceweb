@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<server>
+  <mbean code="com.self.service.mbean.cmd.ServerSwitch" name="self.service:service=ServerSwitch">
+    <attribute name="Servers">http://selfserviceweb-yoonghan.rhcloud.com/webby/img|http://selfserviceweb-yoonghan.rhcloud.com/webby/img</attribute>
+  </mbean>
+</server>
