@@ -1,7 +1,4 @@
 <c:set var="introImages" value="${func:queryImageCategories()}"/>
-
-<!doctype html>
-<html lang="en">
 <head>
   <meta charset="UTF-8">
   <title>Jom Jaring - Main</title>
@@ -152,4 +149,3 @@ All images used with this site are copyright reserved to JomJaring&copy; - "Let'
 To use the images above by any means, your may send your request via email to: mailyoonghan@gmail.com.
 </div>
 </body>
-</html>
