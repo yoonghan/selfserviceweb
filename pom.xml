@@ -1,7 +1,7 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
   xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
   <modelVersion>4.0.0</modelVersion>
-  <groupId>com.jom.jaring</groupId>
+  <groupId>jom.jaring</groupId>
   <artifactId>selfserviceweb</artifactId>
   <packaging>war</packaging>
   <version>1.0</version>
@@ -21,7 +21,8 @@
     <self.service.mbean.version>1.0.0</self.service.mbean.version>
     <jstl.version>1.2</jstl.version>
     <jjutility.version>1.0.0</jjutility.version>
-    <profile.directory>C:/SelfProject\IDE/workspace/profile</profile.directory>
+    <self.service.log.version>1.0.0</self.service.log.version>
+    <profile.directory>C:/SelfProject/IDE/workspace/profile</profile.directory>
   </properties>
   <dependencies>
     <dependency>
@@ -32,7 +33,7 @@
       <scope>provided</scope>
     </dependency>
     <dependency>
-      <groupId>com.jom.jaring</groupId>
+      <groupId>jom.jaring</groupId>
       <artifactId>selfservicedb</artifactId>
       <version>${self.service.db.version}</version>
       <type>jar</type>
@@ -46,9 +47,15 @@
 		<scope>compile</scope>
 	</dependency>
 	<dependency>
-		<groupId>com.jom.jaring</groupId>
+		<groupId>jom.jaring</groupId>
 		<artifactId>jjutility</artifactId>
 		<version>${jjutility.version}</version>
+		<scope>compile</scope>
+	</dependency>
+	<dependency>
+		<groupId>jom.jaring</groupId>
+		<artifactId>selfservicelogging</artifactId>
+		<version>${self.service.log.version}</version>
 		<scope>compile</scope>
 	</dependency>
 	<dependency>
@@ -58,7 +65,7 @@
 		<scope>compile</scope>
 	</dependency>
 	<dependency>
-		<groupId>com.jom.jaring</groupId>
+		<groupId>jom.jaring</groupId>
 		<artifactId>selfservicembean</artifactId>
 		<version>${self.service.mbean.version}</version>
 		<scope>compile</scope>
@@ -79,6 +86,19 @@
 		<groupId>org.jboss</groupId>
 		<artifactId>jboss-common-core</artifactId>
 		<version>${jboss.common.core.version}</version>
+		<scope>compile</scope>
+	</dependency>
+	<dependency>
+	    <groupId>org.quartz-scheduler</groupId>
+	    <artifactId>quartz</artifactId>
+	    <version>${quartz.version}</version>
+	    <scope>compile</scope>
+	</dependency>
+	<dependency>
+	    <groupId>org.quartz-scheduler</groupId>
+	    <artifactId>quartz-jobs</artifactId>
+	    <version>${quartz.version}</version>
+	    <scope>compile</scope>
 	</dependency>
   </dependencies>
   <profiles>
@@ -89,7 +109,7 @@
      <!-- http://maven.apache.org/guides/mini/guide-building-for-different-environments.html -->
      <id>openshift</id>
      <activation>
-     	<activeByDefault>true</activeByDefault>
+     	<activeByDefault>false</activeByDefault>
      </activation>
      <properties>
      	<environment>openshift</environment>
@@ -99,7 +119,7 @@
     <profile>
      <id>dev</id>
      <activation>
-     	<activeByDefault>false</activeByDefault>
+     	<activeByDefault>true</activeByDefault>
      </activation>
      <properties>
      	<environment>dev</environment>
@@ -108,21 +128,12 @@
     </profile>
   </profiles>
   <build>
-  	   <finalName>${environment}</finalName>
-       <plugins>
+  	 <finalName>${environment}</finalName>
+     <plugins>
        	<plugin>
            <artifactId>maven-surefire-plugin</artifactId>
            <configuration>
              <skip>true</skip>
-           </configuration>
-         </plugin>
-         <plugin>
-           <artifactId>maven-war-plugin</artifactId>
-           <version>2.4</version>
-           <configuration>
-             <outputDirectory>deployments</outputDirectory>
-             <warName>${warName}</warName>
-             <classifier>${environment}</classifier>
            </configuration>
          </plugin>
          <plugin>
@@ -164,6 +175,15 @@
 	            </execution>
             </executions>
         </plugin>
-       </plugins>
+        
+         <plugin>
+           <artifactId>maven-war-plugin</artifactId>
+           <version>2.4</version>
+           <configuration>
+             <outputDirectory>deployments</outputDirectory>
+             <warName>${warName}</warName>
+           </configuration>
+         </plugin>
+     </plugins>
   </build>
 </project>

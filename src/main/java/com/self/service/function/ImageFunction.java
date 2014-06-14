@@ -6,8 +6,8 @@ import java.util.concurrent.ExecutionException;
 
 import com.self.care.store.jdbi.caches.ImageCategoryCache;
 import com.self.care.store.jdbi.entity.ImageBean;
+import com.self.service.logging.log.LogUtil;
 import com.self.service.settings.WebSetting;
-import com.self.service.util.log.LogUtil;
 
 public class ImageFunction {
 
