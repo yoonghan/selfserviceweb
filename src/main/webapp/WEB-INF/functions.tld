@@ -17,5 +17,14 @@
         <function-class>com.self.service.function.MBeanFunction</function-class>
         <function-signature>String getServerLocation()</function-signature>
     </function>
-    
+    <function>
+        <name>queryMainMenuList</name>
+        <function-class>com.self.service.function.MenuFunction</function-class>
+        <function-signature>String getMainMenuList()</function-signature>
+    </function>
+    <function>
+        <name>querySubMenuList</name>
+        <function-class>com.self.service.function.MenuFunction</function-class>
+        <function-signature>String getSubMenuList()</function-signature>
+    </function>
 </taglib>

@@ -14,7 +14,6 @@
 			<scripting-invalid>false</scripting-invalid>
 			<is-xml>false</is-xml>
 			<include-prelude>/template/preludeTagLib.jspf</include-prelude>
-			<include-coda>/template/coda.jspf</include-coda>
 		</jsp-property-group>
 	</jsp-config>	
 	<welcome-file-list>
