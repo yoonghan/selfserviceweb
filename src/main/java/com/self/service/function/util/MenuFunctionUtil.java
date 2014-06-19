@@ -3,7 +3,6 @@ package com.self.service.function.util;
 import static com.self.service.settings.WebSetting.LIST_CLASS;
 import static com.self.service.settings.WebSetting.MENU_CLASS;
 
-import java.util.HashMap;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
 
@@ -11,15 +10,13 @@ import com.self.care.store.jdbi.caches.MenuListCache;
 import com.self.care.store.jdbi.entity.EnumType;
 import com.self.care.store.jdbi.entity.MenuBean;
 import com.self.care.store.jdbi.entity.MenuListBean;
-import com.self.service.function.MBeanFunction;
-import com.self.service.function.entity.HtmlTagCacheObject;
 import com.self.service.function.entity.MenuListObject;
 import com.self.service.logging.log.LogUtil;
+import com.self.service.settings.WebSetting;
 
-public class MenuFunctionUtil extends AbstractLocationPathDetector{
+public class MenuFunctionUtil extends AbstractCacheFunction<List<MenuListBean>>{
 	
 	private final String CLASS_NAME = "com.self.service.function.MenuFunctionUtil";
-	private final HashMap<String, HtmlTagCacheObject> menuMemory = new HashMap<String, HtmlTagCacheObject>(2);
 
 	private final String ORDERLIST = "ul";
 	private final String LIST = "li";
@@ -31,7 +28,7 @@ public class MenuFunctionUtil extends AbstractLocationPathDetector{
 	}
 	
 	private MenuFunctionUtil(){
-		
+		super(2);
 	}
 	
 	public static MenuFunctionUtil getInstance(){
@@ -40,55 +37,20 @@ public class MenuFunctionUtil extends AbstractLocationPathDetector{
 	
 	public String getMenuList(final String MENU_GROUP_ID) {
 
-		List<MenuListBean> menuList = null;
 		String listReturn = "";
 
 		try {
-			menuList = MenuListCache.getInstance().getValue(
-					MENU_GROUP_ID);
+			List<MenuListBean> menuBean = MenuListCache.getInstance().getValue(MENU_GROUP_ID);
+			listReturn = getCache(CLASS_NAME, menuBean, MENU_GROUP_ID);
 		} catch (ExecutionException e) {
-			LogUtil.getInstance(CLASS_NAME).warn(
-					"No records returned for:" + MENU_GROUP_ID);
-		}
-
-		if (menuList != null) {
-			HtmlTagCacheObject htmlTag = menuMemory.get(MENU_GROUP_ID);
-			
-			if(htmlTag == null 
-					|| htmlTag.getHashCode() != menuList.hashCode()
-					|| isServerLocationChanged()){
-				
-				listReturn = updateMenuMemory(
-						htmlTag,
-						menuList,
-						MENU_GROUP_ID
-						);
-				
-				LogUtil.getInstance(CLASS_NAME).info("Menu created.");
-				
-			}else{
-				listReturn = htmlTag.getHtmlTag();
-			}
-			
+			LogUtil.getInstance(CLASS_NAME).warn("No records returned for:" + MENU_GROUP_ID);
 		}
 
 		return listReturn;
 	}
 	
-	//synchronized and let it queue to build the menu.
-	private synchronized String updateMenuMemory(
-			final HtmlTagCacheObject htmlTag, 
-			final List<MenuListBean> menuList, 
-			final String type){
-		
-		//avoid too many update.
-		if(htmlTag != null && htmlTag.getHashCode() != menuList.hashCode())
-			return htmlTag.getHtmlTag();
-		
-		String menuTag = createHTMLMenuList(menuList, menuList.get(0).getLevel(), FIRST_INDEX).getStmt();
-		HtmlTagCacheObject htco = new HtmlTagCacheObject(menuList.hashCode(), menuTag);
-		menuMemory.put(type, htco);
-		return menuTag;
+	protected String contructHtmlCode(List<MenuListBean> menuList) {
+		return createHTMLMenuList(menuList, menuList.get(0).getLevel(), FIRST_INDEX).getStmt();
 	}
 
 	/**
@@ -153,7 +115,10 @@ public class MenuFunctionUtil extends AbstractLocationPathDetector{
 		switch(menuType){
 		case IMAGE:
 			sb.append("<img src=")
-				.append("\"").append(menu.getImageURI()).append("\"")
+				.append("\"")
+				.append(getServerLocation())
+				.append(WebSetting.IMAGE_LOCATION)
+				.append(menu.getImageURI()).append("\"")
 				.append("/>");
 			
 			break;
@@ -176,9 +141,13 @@ public class MenuFunctionUtil extends AbstractLocationPathDetector{
 		case INTERNAL_TEXT_LINK:
 			
 			if(link != null){
+				String constructlink = menu.getLinkURI();
 				sb.append("<a href=")
-					.append(MBeanFunction.getServerLocation()).append("/")
-					.append("\"").append(menu.getLinkURI()).append("\"")
+					.append("\"")
+					.append(getServerLocation())
+					.append(constructlink.startsWith("/")?
+							constructlink:
+							"/"+constructlink).append("\"")
 					.append(">");
 			}
 			
@@ -206,7 +175,8 @@ public class MenuFunctionUtil extends AbstractLocationPathDetector{
 			if(link != null){
 				sb.append("<a href=")
 					.append("\"")
-					.append(MBeanFunction.getServerLocation()).append("/")
+					.append(getServerLocation())
+					.append(WebSetting.IMAGE_LOCATION)
 					.append(menu.getLinkURI())
 					.append("\"")
 					.append(">");

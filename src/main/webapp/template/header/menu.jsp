@@ -1,8 +1,6 @@
-<c:set var="introMainMenu" value="${func:queryMainMenuList()}"/>
- <script src="webby/js/hoverIntent.js"></script>
- <script src="webby/js/jquery.js"></script>
- <link rel="stylesheet" href="webby/css/superfish.css" media="screen">
- <script src="webby/js/superfish.js"></script>
+ <script src="${SERVER_LOCATION}/js/hoverIntent.js"></script>
+ <link rel="stylesheet" href="${SERVER_LOCATION}/css/superfish.css" media="screen">
+ <script src="${SERVER_LOCATION}/js/superfish.js"></script>
  <style>
 .headSeperator {
  margin-top:50px;
@@ -36,6 +34,6 @@
 <body>
 <div class="headSeperator">
 	<ul class="sf-menu" id="menu">
-		${introMainMenu}
+		${menu}
 	</ul>
 </div>

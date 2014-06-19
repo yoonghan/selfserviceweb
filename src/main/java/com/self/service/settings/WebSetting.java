@@ -7,4 +7,6 @@ public interface WebSetting {
 	
 	public final static String MENU_CLASS = "menu_";
 	public final static String LIST_CLASS = "list_";
+	
+	public final static String IMAGE_LOCATION = "/img/";
 }

@@ -3,14 +3,12 @@
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-
-<title>Architecture & Technologies</title>
-
-<link rel="stylesheet" href="../css/tablestack/dialog.css">
-<link rel="stylesheet" href="../css/tablestack/tablesaw.stackonly.css">
-<script src="../js/jquery.js"></script>
-<script src="../js/tablestack/dialog.js"></script>
-<script src="../js/tablestack/tablesaw.stackonly.js"></script>
+<title>Architecture &amp; Technologies</title>
+ <%@include file="/template/header/common.jsp"%>
+<link rel="stylesheet" href="${SERVER_LOCATION}/css/tablestack/dialog.css">
+<link rel="stylesheet" href="${SERVER_LOCATION}/css/tablestack/tablesaw.stackonly.css">
+<script src="${SERVER_LOCATION}/js/tablestack/dialog.js"></script>
+<script src="${SERVER_LOCATION}/js/tablestack/tablesaw.stackonly.js"></script>
 <style>
 body{
  margin-left:2px;
@@ -51,13 +49,13 @@ body{
  display:hide;
 }
 .title {
-font-weight: bold;
-position: relative;
-background-color: #F33;
-margin:2px;
-padding:5px;
-width: 100%;
-color: white;
+ font-weight: bold;
+ position: relative;
+ background-color: #F33;
+ margin:2px;
+ padding:5px;
+ width: 100%;
+ color: white;
 }
 .desc{
  font-style:italic;
@@ -69,29 +67,32 @@ version{
 tr:nth-child(even){ background-color:#eee; }
 
 input[type=checkbox] {
-    border: 0;
-    clip: rect(0 0 0 0);
-    height: 1px;
-    width: 1px;
-    margin: -1px;
-    overflow: hidden;
-    padding: 0;
-    position: absolute;
+ border: 0;
+ clip: rect(0 0 0 0);
+ height: 1px;
+ width: 1px;
+ margin: -1px;
+ overflow: hidden;
+ padding: 0;
+ position: absolute;
 }
 
 input[type=checkbox]:checked ~ section { display: block; visibility:visible; }
 section {display: none; visibility:hidden;}
 </style>
 
-<%@include file="/template/header/submenu.jsp" %>
+<c:set var="menu" value="${func:querySubMenuList()}"/>
+<%@include file="/template/header/menu.jsp" %>
 
 <br/><br/><br/><br/><br/>
+<nav>
 <div class="content">Content</div>
 <ol>
  <li><a href="#">Architecture</a></li>
  <li><a href="#T1">Technology</a></li>
  <li><a href="#T2">Project download</a></li>
 </ol>
+</nav>
 
 <input type="checkbox" id="art_img" value="none">
 <div class="title">
@@ -100,12 +101,9 @@ section {display: none; visibility:hidden;}
 &nbsp;<a href="."><label for="art_img">+Click to show image</label></a>
 <br/>
 <section>
-<img src="../img/architecture.jpg" style="margin-left:2px"/>
+<img src="${SERVER_LOCATION}/img/architecture.jpg" style="margin-left:2px"/>
 </section>
-
-
-<p/>
-<hr>
+<br><hr>
 <div class="title"><a id="T1">TECHNOLOGY</a></div>
 <table class="tablesaw" data-mode="stack">
 	<thead>
@@ -162,6 +160,10 @@ section {display: none; visibility:hidden;}
 		<tr>
 			<td>TableSaw</td>
 			<td class="desc">Creating table to fit different type of devices.</td>
+		</tr>
+		<tr>
+			<td>Vert.x</td>
+			<td class="desc">Lightweight webserver for image loading and static contents.</td>
 		</tr>
 	</tbody>
 </table>

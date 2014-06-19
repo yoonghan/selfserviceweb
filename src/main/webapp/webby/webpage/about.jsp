@@ -2,6 +2,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
+ <%@include file="/template/header/common.jsp"%>
 <style>
 design {
 	position: fixed;
@@ -18,7 +19,8 @@ highlight{
 	font-weight: bold;
 }
 </style>
-<%@include file="/template/header/submenu.jsp" %>
+<c:set var="menu" value="${func:querySubMenuList()}"/>
+<%@include file="/template/header/menu.jsp" %>
 <design>
 JOM Jaring is a joint-ventured project started by:
 <p/>
@@ -42,6 +44,5 @@ Fifth: Calendar for reservation, booking.
 </objective>
 </objectives>
 </design>
-<%@include file="/template/footer/revision.jsp" %>
 </body>
 </html>

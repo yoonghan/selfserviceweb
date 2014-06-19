@@ -3,7 +3,8 @@
 <head>
  <meta charset="UTF-8">
  <title>Jom Jaring - Main</title>
- <link rel="stylesheet" href="webby/css/idangerous.swiper.css">
+ <link rel="stylesheet" href="${SERVER_LOCATION}/css/idangerous.swiper.css">
+ <%@include file="/template/header/common.jsp"%>
  <style>
 body {
  margin: 0;
@@ -21,7 +22,7 @@ body {
  position: relative;
 }
 .device .arrow-left {
- background: url(webby/img/arws.png) no-repeat left bottom;
+ background: url(${SERVER_LOCATION}/img/arws.png) no-repeat left bottom;
  position: absolute;
  left: 10px;
  top: 50%;
@@ -29,14 +30,14 @@ body {
  height: 60px;
 }
 .device .arrow-left:hover {
- background: url(webby/img/arwsh.png) no-repeat right bottom;
+ background: url(${SERVER_LOCATION}/img/arwsh.png) no-repeat right bottom;
  position: absolute;
  top: 50%;
  width: 30px;
  height: 60px;
 }
 .device .arrow-right {
- background: url(webby/img/arws.png) no-repeat left top;
+ background: url(${SERVER_LOCATION}/img/arws.png) no-repeat left top;
  position: absolute;
  right: 10px;
  top: 50%;
@@ -44,7 +45,7 @@ body {
  height: 60px;
 }
 .device .arrow-right:hover {
- background: url(webby/img/arwsh.png) no-repeat right top;
+ background: url(${SERVER_LOCATION}/img/arwsh.png) no-repeat right top;
  position: absolute;
  top: 50%;
  width: 30px;
@@ -86,20 +87,8 @@ body {
 .title {
  font-style: italic;
 }
-.footNote {
- position:absolute;
- bottom:0px;
- background-color:#AAA;
- opacity:0.7;
- filter:alpha(opacity=70);
- margin: 2px;
- padding: 5px;
- width: 97%;
- border-radius: 5px;
- color: white;
- z-index: 100;
-}
  </style>
+ <c:set var="menu" value="${func:queryMainMenuList()}"/>
 <%@include file="/template/header/menu.jsp" %>
 <div class="device">
     <a class="arrow-left" href="#"></a> 
@@ -109,17 +98,15 @@ body {
 			<div class="swiper-slide">
 				<div class="content-slide">
 					<p class="title">Welcome to JOM JARING</p>
-					<img src="webby/img/mainImage.jpg"/>
+					<img src="${SERVER_LOCATION}/img/mainImage.jpg"/>
 				</div>
 			</div>	
-			
-			${introImages}"
-				
+${introImages}	
 		</div>
 	</div>
 	<div class="pagination"></div>
 </div>
-  <script src="webby/js/idangerous.swiper-2.1.min.js"></script>
+  <script src="${SERVER_LOCATION}/js/idangerous.swiper-2.1.min.js"></script>
   <script>
   var mySwiper = new Swiper('.swiper-container',{
     pagination: '.pagination',
@@ -136,11 +123,10 @@ body {
     mySwiper.swipeNext()
   })
   </script>
-<div class="footNote">
-All images used with this site are copyright reserved to JomJaring&copy; - "Let's Web". 
-<br/>
-To use the images above by any means, your may send your request via email to: mailyoonghan@gmail.com.
-</div>
+<footnote>
+<br/>All images used with this site are copyright reserved to JomJaring&copy; - "Let's Web". 
+<br/>To use the images above by any means, your may send your request via email to: mailyoonghan@gmail.com.
+</footnote>
 <%@include file="/template/footer/revision.jsp" %>
 </body>
 </html>
