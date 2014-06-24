@@ -6,9 +6,9 @@ import com.self.service.function.entity.HtmlTagCacheObject;
 import com.self.service.logging.log.LogUtil;
 import com.self.service.mbean.util.MBeanUtility;
 
-public abstract class AbstractCacheFunction<T> {
+public abstract class AbstractCacheFunction<T, V> {
 	
-	private final ConcurrentHashMap<String, HtmlTagCacheObject> memory;
+	private final ConcurrentHashMap<String, HtmlTagCacheObject<V>> memory;
 	
 	private String currentLocation = MBeanUtility.getInstance().getActiveServer();
 	
@@ -24,19 +24,18 @@ public abstract class AbstractCacheFunction<T> {
 	}
 	
 	protected AbstractCacheFunction(final int estimatedMemoryExpansion){
-		memory = new ConcurrentHashMap<String, HtmlTagCacheObject>(estimatedMemoryExpansion);
+		memory = new ConcurrentHashMap<String, HtmlTagCacheObject<V>>(estimatedMemoryExpansion);
 	}
 	
 
-	protected String getCache(String CLASS_NAME, T cacheBean, String key){
-		String htmlTag = null;
+	protected V getCache(String CLASS_NAME, T cacheBean, String key){
+		V htmlTag = null;
 		
 		if(cacheBean != null){
-			
-			HtmlTagCacheObject cacheObj  = isServerLocationChanged()?
+			HtmlTagCacheObject<V> cacheObj  = isServerLocationChanged()?
 									null:
-									(HtmlTagCacheObject)memory.get(key);
-			
+									(HtmlTagCacheObject<V>)memory.get(key);
+	
 			if(cacheObj == null 
 					|| cacheObj.getHashCode() != cacheBean.hashCode()){
 				htmlTag = createHtmlTag(cacheBean, cacheObj, key);
@@ -49,9 +48,9 @@ public abstract class AbstractCacheFunction<T> {
 		return htmlTag;
 	}
 	
-	private synchronized String createHtmlTag(
+	private synchronized V createHtmlTag(
 			final T cacheBean,
-			final HtmlTagCacheObject htmlTag,
+			final HtmlTagCacheObject<V> htmlTag,
 			final String type
 			){
 		
@@ -59,10 +58,10 @@ public abstract class AbstractCacheFunction<T> {
 		if(htmlTag != null && htmlTag.getHashCode() == cacheBean.hashCode())
 			return htmlTag.getHtmlTag();
 		
-		String htmlCode = contructHtmlCode(cacheBean);
-		memory.put(type, new HtmlTagCacheObject(cacheBean.hashCode(), htmlCode));
+		V htmlCode = contructHtmlCode(cacheBean);
+		memory.put(type, new HtmlTagCacheObject<V>(cacheBean.hashCode(), htmlCode));
 		return htmlCode;
 	}
 	
-	protected abstract String contructHtmlCode(T imagebean);
+	protected abstract V contructHtmlCode(T imagebean);
 }

@@ -1,10 +1,10 @@
 package com.self.service.function.entity;
 
-public class HtmlTagCacheObject {
+public class HtmlTagCacheObject <V>{
 	private final int hashCode;
-	private final String htmlTag;
+	private final V htmlTag;
 	
-	public HtmlTagCacheObject(int hashCode, String htmlTag){
+	public HtmlTagCacheObject(int hashCode, V htmlTag){
 		this.hashCode = hashCode;
 		this.htmlTag = htmlTag;
 	}
@@ -13,7 +13,7 @@ public class HtmlTagCacheObject {
 		return hashCode;
 	}
 
-	public String getHtmlTag() {
+	public V getHtmlTag() {
 		return htmlTag;
 	}
 	

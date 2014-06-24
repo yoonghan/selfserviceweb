@@ -14,7 +14,7 @@ import com.self.service.function.entity.MenuListObject;
 import com.self.service.logging.log.LogUtil;
 import com.self.service.settings.WebSetting;
 
-public class MenuFunctionUtil extends AbstractCacheFunction<List<MenuListBean>>{
+public class MenuFunctionUtil extends AbstractCacheFunction<List<MenuListBean>, String>{
 	
 	private final String CLASS_NAME = "com.self.service.function.MenuFunctionUtil";
 

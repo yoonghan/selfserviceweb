@@ -10,7 +10,7 @@
     <function>
         <name>queryImageCategories</name>
         <function-class>com.self.service.function.ImageFunction</function-class>
-        <function-signature>List getIntroImages()</function-signature>
+        <function-signature>ImageListObject getIntroImages()</function-signature>
     </function>
     <function>
         <name>getServerLocation</name>
