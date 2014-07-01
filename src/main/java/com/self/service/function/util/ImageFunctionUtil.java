@@ -5,14 +5,13 @@ import java.util.concurrent.ExecutionException;
 
 import com.self.care.store.jdbi.caches.ImageCategoryCache;
 import com.self.care.store.jdbi.entity.ImageBean;
-import com.self.service.function.entity.ImageListObject;
 import com.self.service.logging.log.LogUtil;
 import com.self.service.settings.WebSetting;
 
-public class ImageFunctionUtil extends AbstractCacheFunction<List<ImageBean>, ImageListObject>{
+public class ImageFunctionUtil extends AbstractCacheFunction<List<ImageBean>, String>{
 	
 	private final static int ESTIMATED_MEMORY_USE=1;
-	private final String FADE_TIME="fadeTime";
+	private final String FADE_TIME="1000";
 	
 	private final String CLASS_NAME = "com.self.service.function.ImageFunctionUtil";
 	
@@ -28,45 +27,46 @@ public class ImageFunctionUtil extends AbstractCacheFunction<List<ImageBean>, Im
 		return Singleton.instance;
 	}
 	
-	public ImageListObject getIntroImage(){
+	public String getIntroImage(){
 		
-		ImageListObject introImageHtmlCode;
+		String introImageHtmlCode="";
 		
 		try {
 			List<ImageBean> imageBean = ImageCategoryCache.getInstance().getValue(WebSetting.INTRO_CATEGORY);
 			introImageHtmlCode = getCache(CLASS_NAME, imageBean, WebSetting.INTRO_CATEGORY);
 		} catch (ExecutionException e) {
 			LogUtil.getInstance(CLASS_NAME).warn("No records returned for:" + WebSetting.INTRO_CATEGORY);
-			introImageHtmlCode=new ImageListObject("\"\"","\"\"");
 		}
 		
 		return introImageHtmlCode;
 	}
 	
-	protected ImageListObject contructHtmlCode(List<ImageBean> imagebean) {
+	protected String contructHtmlCode(List<ImageBean> imagebean) {
 		StringBuilder sbImageSrc = new StringBuilder(500);
-		StringBuilder sbImageDesc = new StringBuilder(500);
+		sbImageSrc.append("{\"backgrounds\":[");
 		String serverLocation = getServerLocation();
 		for(ImageBean image: imagebean){
-			sbImageSrc.append("{src:'")
+			sbImageSrc.append("{\"src\":\"")
 					.append(serverLocation)
 					.append(WebSetting.IMAGE_LOCATION)
 					.append(image.getURI())
-				.append("', fade:").append(FADE_TIME).append("}").append(",");
-			sbImageDesc.append("\"").append(replaceSpecialChar(image.getName())).append("\"").append(",");
+				.append("\", \"fade\":").append(FADE_TIME)
+//				.append(", load:function() {$(\"note\").text(\")")
+//				.append(replaceSpecialChar(image.getName()))
+//				.append("\");}")
+				.append("}").append(",");
+			
 		}
 		if(imagebean.size() > 1){
 			//remove last comma.
 			sbImageSrc.deleteCharAt(sbImageSrc.length()-1);
-			sbImageDesc.deleteCharAt(sbImageDesc.length()-1);
 		}
 		
-		ImageListObject imageListObject = new ImageListObject(sbImageSrc.toString(), sbImageDesc.toString());
-		
-		return imageListObject;
+		sbImageSrc.append("]}");
+		return sbImageSrc.toString();
 	}
 
-	private String replaceSpecialChar(String name) {
-		return name.replaceAll("\"", "\\\""); //escape double quote to \"
-	}
+//	private String replaceSpecialChar(String name) {
+//		return name.replaceAll("\"", "\\\""); //escape double quote to \"
+//	}
 }

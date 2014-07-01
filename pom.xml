@@ -100,6 +100,14 @@
 	    <version>${quartz.version}</version>
 	    <scope>compile</scope>
 	</dependency>
+	<!-- Rest Easy, already provided by jboss [S] -->
+	<dependency>
+		<groupId>org.jboss.resteasy</groupId>
+		<artifactId>resteasy-jaxrs</artifactId>
+		<version>${resteasy.version}</version>
+		<scope>provided</scope>
+	</dependency>
+	<!-- Rest Easy [E] -->
   </dependencies>
   <profiles>
     <profile>

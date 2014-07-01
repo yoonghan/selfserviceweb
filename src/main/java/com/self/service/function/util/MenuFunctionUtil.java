@@ -1,8 +1,5 @@
 package com.self.service.function.util;
 
-import static com.self.service.settings.WebSetting.LIST_CLASS;
-import static com.self.service.settings.WebSetting.MENU_CLASS;
-
 import java.util.List;
 import java.util.concurrent.ExecutionException;
 
@@ -63,11 +60,10 @@ public class MenuFunctionUtil extends AbstractCacheFunction<List<MenuListBean>, 
 	private MenuListObject createHTMLMenuList(final List<MenuListBean> menuList, final Short currentLevel, final int idx) {
 		StringBuilder sb = new StringBuilder(200);
 		
-		if(idx != FIRST_INDEX){
-			sb.append("<")
-				.append(ORDERLIST)
-				.append(" class=\"").append(MENU_CLASS+currentLevel).append("\"")
-				.append(">");
+		sb.append("<").append(ORDERLIST).append(">");
+
+		if(currentLevel==FIRST_INDEX){
+			sb.append(titleKey());
 		}
 		
 		int loop=idx;
@@ -82,26 +78,24 @@ public class MenuFunctionUtil extends AbstractCacheFunction<List<MenuListBean>, 
 					sb.append("</").append(LIST).append(">");
 				}
 				
-				sb.append("<")
-				.append(LIST)
-				.append(" class=\"").append(LIST_CLASS+loop).append("\"")
-				.append(">");
+				sb.append("<").append(LIST).append(">");
 				sb.append(createMenu(menu.getMenu()));
 				
 			}else{
 				MenuListObject listObj= createHTMLMenuList(menuList,level,loop);
 				loop = listObj.getIndex();
 				sb.append(listObj.getStmt());
-				sb.append("</").append(LIST).append(">");
 			}
 		}
 		
-		if(idx != FIRST_INDEX){//close first index list and order list
-			sb.append("</").append(LIST).append(">");
-			sb.append("</").append(ORDERLIST).append(">");
-		}
+		sb.append("</").append(LIST).append(">");
+		sb.append("</").append(ORDERLIST).append(">");
 
 		return new MenuListObject(sb.toString(),loop);
+	}
+
+	private String titleKey() {
+		return String.format("<%s class=\"%s\">%s</%s>", LIST,WebSetting.CSS_MENU_CLASS,WebSetting.CSS_MENU_TITLE,LIST);
 	}
 
 	private String createMenu(MenuBean menu) {

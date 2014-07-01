@@ -10,7 +10,7 @@
     <function>
         <name>queryImageCategories</name>
         <function-class>com.self.service.function.ImageFunction</function-class>
-        <function-signature>ImageListObject getIntroImages()</function-signature>
+        <function-signature>String getIntroImages()</function-signature>
     </function>
     <function>
         <name>getServerLocation</name>
@@ -21,6 +21,11 @@
         <name>queryMainMenuList</name>
         <function-class>com.self.service.function.MenuFunction</function-class>
         <function-signature>String getMainMenuList()</function-signature>
+    </function>
+    <function>
+        <name>queryMenuIntroBtn</name>
+        <function-class>com.self.service.function.MenuFunction</function-class>
+        <function-signature>String getIntroBtnMenu()</function-signature>
     </function>
     <function>
         <name>querySubMenuList</name>

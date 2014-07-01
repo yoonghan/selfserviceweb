@@ -33,7 +33,5 @@
 </head>
 <body>
 <div class="headSeperator">
-	<ul class="sf-menu" id="menu">
 		${menu}
-	</ul>
 </div>

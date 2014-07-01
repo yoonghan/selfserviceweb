@@ -3,109 +3,57 @@
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
 <meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="About our venture.">
+<link rel="author"	href="https://plus.google.com/u/1/114852108498604797792" />
+<link href='http://fonts.googleapis.com/css?family=Roboto' rel='stylesheet' type='text/css'>	
 <title>Architecture &amp; Technologies</title>
- <%@include file="/template/header/common.jsp"%>
 <link rel="stylesheet" href="${SERVER_LOCATION}/css/tablestack/dialog.css">
 <link rel="stylesheet" href="${SERVER_LOCATION}/css/tablestack/tablesaw.stackonly.css">
+<link rel="stylesheet" href="${SERVER_LOCATION}/css/webby/submenu.css">
+<link rel="stylesheet" href="${SERVER_LOCATION}/css/webby/ssarchitecture.css">
 <script src="${SERVER_LOCATION}/js/tablestack/dialog.js"></script>
 <script src="${SERVER_LOCATION}/js/tablestack/tablesaw.stackonly.js"></script>
-<style>
-body{
- margin-left:2px;
- font-family: Arial, Helvetica, sans-serif;
- font-size: 19px;
-}
-.tablesaw td,
-.tablesaw tbody th{
- vertical-align: middle;
-}
-.tablesaw thead{
- border: 1px solid #e5e5e4;
- background: #e2dfdc;
- background-image: -webkit-gradient(linear, left top, left bottom, from(#fff), to(#e2dfdc));
- background-image: -webkit-linear-gradient(top, #fff, #e2dfdc);
- background-image: linear-gradient(to bottom, #fff, #e2dfdc);
-}
-.tablesaw thead th{
- font-weight: bold;
- color: #777;
- text-transform: uppercase;
- text-shadow: 0 1px 0 #fff;
- text-align: left;
-}
-.tablesaw-cell-label{
- font-weight:bold;
-}
-.ul{
- border: 1px solid #e5e5e4;
- background: #ffffff;
-}
-.content{
- padding:3px;
- font-weight:180;
- color:black;
-}
-.artImgDisplay{
- display:hide;
-}
-.title {
- font-weight: bold;
- position: relative;
- background-color: #F33;
- margin:2px;
- padding:5px;
- width: 100%;
- color: white;
-}
-.desc{
- font-style:italic;
-}
-version{
- margin:2px;
- font-size:9pt;
-}
-tr:nth-child(even){ background-color:#eee; }
+<script type="text/javascript" src="${SERVER_LOCATION}/js/jquery.js"></script>
+<script>
+$( document ).ready(function() {
+ $.get("../../../rest/html/submenu", function( data )
+ {
+	 $("menu").html(data);
+	 $("#menu").before(data);
+ });
+});
+</script>
+</head>
+<body>
+   <menu>
+   </menu>
+	<div id="submenu">
+		<ul>
+			<li class="menuTitle">Contents:</li>
+			<li><a href="#T0">Architecture</a></li>
+			<li><a href="#T1">Technology</a></li>
+			<li><a href="#T2">Project Downloads</a></li>
+		</ul>
+	</div>
 
-input[type=checkbox] {
- border: 0;
- clip: rect(0 0 0 0);
- height: 1px;
- width: 1px;
- margin: -1px;
- overflow: hidden;
- padding: 0;
- position: absolute;
-}
-
-input[type=checkbox]:checked ~ section { display: block; visibility:visible; }
-section {display: none; visibility:hidden;}
-</style>
-
-<c:set var="menu" value="${func:querySubMenuList()}"/>
-<%@include file="/template/header/menu.jsp" %>
-
-<br/><br/><br/><br/><br/>
-<nav>
-<div class="content">Content</div>
-<ol>
- <li><a href="#">Architecture</a></li>
- <li><a href="#T1">Technology</a></li>
- <li><a href="#T2">Project download</a></li>
-</ol>
-</nav>
-
-<input type="checkbox" id="art_img" value="none">
-<div class="title">
-<label for="art_img"><span>+ ARCHITECTURE (click to reveal)</span></label>
+<img src="${SERVER_LOCATION}/img/archtbanner.jpg" style="width:100%"></img>
+	
+<!--input type="checkbox" id="art_img" value="none" checked-->
+<div class="fullbar" id="T0">
+<h1>Architecture</h1>
 </div>
-&nbsp;<a href="."><label for="art_img">+Click to show image</label></a>
-<br/>
-<section>
-<img src="${SERVER_LOCATION}/img/architecture.jpg" style="margin-left:2px"/>
+<br>
+<section class="addMargin">
+<img src="${SERVER_LOCATION}/img/design.jpg"/>
 </section>
-<br><hr>
-<div class="title"><a id="T1">TECHNOLOGY</a></div>
-<table class="tablesaw" data-mode="stack">
+<label for="art_img" class="addMargin"><span><i>As of Release 1.0</i></span></label>
+<br><br>
+<div class="fullbar" id="T1">
+ <h1>Technology</h1>
+ <h3>3rd party products being used.</h3>
+</div>
+<br/>
+<table class="tablesaw addMargin" data-mode="stack">
 	<thead>
 		<tr>
 			<th>Technology</th>
@@ -146,16 +94,8 @@ section {display: none; visibility:hidden;}
 			<td class="desc">Do i need to say more?</td>
 		</tr>
 		<tr>
-			<td>iDangero.us</td>
-			<td class="desc">CSS and JS for image sliding.</td>
-		</tr>
-		<tr>
 			<td>Quartz</td>
 			<td class="desc">Job scheduling library that can be integrated into a wide variety of Java applications.</td>
-		</tr>
-		<tr>
-			<td>Superfish</td>
-			<td class="desc">Enhanced Suckerfish-style for drop-down menu.</td>
 		</tr>
 		<tr>
 			<td>TableSaw</td>
@@ -165,14 +105,21 @@ section {display: none; visibility:hidden;}
 			<td>Vert.x</td>
 			<td class="desc">Lightweight webserver for image loading and static contents.</td>
 		</tr>
+		<tr>
+			<td>Vegas</td>
+			<td class="desc">A nice image display with timer.</td>
+		</tr>
 	</tbody>
 </table>
 <p>
 <a href="#" class="link">Back To Top</a>
 </p>
-<hr>
-<div class="title"><a id="T2">GIT HUB PROJECT</a></div>
-<table class="tablesaw" data-mode="stack">
+<div class="fullbar" id="T2">
+ <h1>GITHub project</h1>
+ <h3>-- Fork me --</h3>
+</div>
+<br/>
+<table class="tablesaw addMargin" data-mode="stack">
 	<thead>
 		<tr>
 			<th>ProjectName</th>
@@ -217,6 +164,10 @@ section {display: none; visibility:hidden;}
 <a href="#" class="link">Back To Top</a>
 </p>
 <br/>
-<%@include file="/template/footer/revision.jsp" %>
+   <div class="footnote">
+	<br id="menu">
+	&copy;2014 All rights reserved - JOM Jaring<br/>
+	If you are interested, do not hesitate to contact us.
+	</div>
 </body>
 </html>

@@ -5,7 +5,6 @@ import junit.framework.Assert;
 import org.junit.Ignore;
 import org.junit.Test;
 
-import com.self.care.store.jdbi.caches.ImageCategoryCache;
 import com.self.care.store.jdbi.caches.MenuListCache;
 import com.self.service.function.ImageFunction;
 import com.self.service.function.MenuFunction;
@@ -30,6 +29,8 @@ public class TestMenu {
 		MenuListCache.getInstance().refreshCache();
 		menuList2 = MenuFunction.getMainMenuList();
 		
+		System.out.println(menuList);
+		
 		// Both address directory will not be the same. Psst thinking of using intern.
 		Assert.assertFalse(menuList == menuList2);
 	}
@@ -37,11 +38,19 @@ public class TestMenu {
 	@Test
 	public void testImageResult() {
 		// Obtain the menu list directly first.
-		String imageNameList = ImageFunction.getIntroImages().getImageNameAsJS();
-		String imageSrcList = ImageFunction.getIntroImages().getImageSrcAsJS();
-		System.out.println(imageSrcList);
+		String imageNameList = ImageFunction.getIntroImages();
+		
 		System.out.println(imageNameList);
-		Assert.assertFalse(imageSrcList.endsWith(","));
+		
 		Assert.assertFalse(imageNameList.endsWith(","));
+	}
+	
+	@Test
+	public void testMenuBtn() {
+		String menuBtn = MenuFunction.getIntroBtnMenu();
+		
+		System.out.println(menuBtn);
+		
+		Assert.assertFalse("".equals(menuBtn));
 	}
 }
