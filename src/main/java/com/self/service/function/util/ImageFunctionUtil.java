@@ -6,7 +6,7 @@ import java.util.concurrent.ExecutionException;
 import com.self.care.store.jdbi.caches.ImageCategoryCache;
 import com.self.care.store.jdbi.entity.ImageBean;
 import com.self.service.logging.log.LogUtil;
-import com.self.service.settings.WebSetting;
+import static com.self.service.settings.WebSetting.*;
 
 public class ImageFunctionUtil extends AbstractCacheFunction<List<ImageBean>, String>{
 	
@@ -32,10 +32,10 @@ public class ImageFunctionUtil extends AbstractCacheFunction<List<ImageBean>, St
 		String introImageHtmlCode="";
 		
 		try {
-			List<ImageBean> imageBean = ImageCategoryCache.getInstance().getValue(WebSetting.INTRO_CATEGORY);
-			introImageHtmlCode = getCache(CLASS_NAME, imageBean, WebSetting.INTRO_CATEGORY);
+			List<ImageBean> imageBean = ImageCategoryCache.getInstance().getValue(INTRO_CATEGORY);
+			introImageHtmlCode = getCache(CLASS_NAME, imageBean, INTRO_CATEGORY);
 		} catch (ExecutionException e) {
-			LogUtil.getInstance(CLASS_NAME).warn("No records returned for:" + WebSetting.INTRO_CATEGORY);
+			LogUtil.getInstance(CLASS_NAME).warn("No records returned for:" + INTRO_CATEGORY);
 		}
 		
 		return introImageHtmlCode;
@@ -44,11 +44,9 @@ public class ImageFunctionUtil extends AbstractCacheFunction<List<ImageBean>, St
 	protected String contructHtmlCode(List<ImageBean> imagebean) {
 		StringBuilder sbImageSrc = new StringBuilder(500);
 		sbImageSrc.append("{\"backgrounds\":[");
-		String serverLocation = getServerLocation();
 		for(ImageBean image: imagebean){
 			sbImageSrc.append("{\"src\":\"")
-					.append(serverLocation)
-					.append(WebSetting.IMAGE_LOCATION)
+					.append(IMAGE_LOCATION)
 					.append(image.getURI())
 				.append("\", \"fade\":").append(FADE_TIME)
 //				.append(", load:function() {$(\"note\").text(\")")

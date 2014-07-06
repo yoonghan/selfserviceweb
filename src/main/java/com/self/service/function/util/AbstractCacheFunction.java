@@ -10,31 +10,15 @@ public abstract class AbstractCacheFunction<T, V> {
 	
 	private final ConcurrentHashMap<String, HtmlTagCacheObject<V>> memory;
 	
-	private String currentLocation = MBeanUtility.getInstance().getActiveServer();
-	
-	protected boolean isServerLocationChanged(){
-		boolean change =  (false == MBeanUtility.getInstance().getActiveServer().equals(currentLocation));
-		if(change == true)
-			currentLocation = MBeanUtility.getInstance().getActiveServer();
-		return change;
-	}
-	
-	protected String getServerLocation(){
-		return MBeanUtility.getInstance().getActiveServer();
-	}
-	
 	protected AbstractCacheFunction(final int estimatedMemoryExpansion){
 		memory = new ConcurrentHashMap<String, HtmlTagCacheObject<V>>(estimatedMemoryExpansion);
 	}
-	
 
 	protected V getCache(String CLASS_NAME, T cacheBean, String key){
 		V htmlTag = null;
 		
 		if(cacheBean != null){
-			HtmlTagCacheObject<V> cacheObj  = isServerLocationChanged()?
-									null:
-									(HtmlTagCacheObject<V>)memory.get(key);
+			HtmlTagCacheObject<V> cacheObj  = (HtmlTagCacheObject<V>)memory.get(key);
 	
 			if(cacheObj == null 
 					|| cacheObj.getHashCode() != cacheBean.hashCode()){

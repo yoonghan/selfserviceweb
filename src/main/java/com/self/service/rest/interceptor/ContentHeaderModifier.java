@@ -21,7 +21,6 @@ public class ContentHeaderModifier  implements MessageBodyWriterInterceptor{
 	@Override
 	public void write(final MessageBodyWriterContext context) throws IOException,
 			WebApplicationException {
-		System.out.println("SHITTTT");
 		context.getHeaders().add(ACCESS_CONTROL_ALLOW_ORIGIN , "*");
 		context.proceed();
 	}
@@ -31,7 +30,6 @@ public class ContentHeaderModifier  implements MessageBodyWriterInterceptor{
         @HeaderParam(ACCESS_CONTROL_REQUEST_METHOD) final String requestMethod,
         @HeaderParam(ACCESS_CONTROL_REQUEST_HEADERS) final String requestHeaders)
     {
-		System.out.println("SHITTTT 2");
         final ResponseBuilder retValue = Response.ok();
 
         if (requestHeaders != null)

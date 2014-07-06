@@ -2,43 +2,30 @@ package selfserviceweb;
 
 import junit.framework.Assert;
 
-import org.junit.Ignore;
 import org.junit.Test;
 
-import com.self.care.store.jdbi.caches.MenuListCache;
-import com.self.service.function.ImageFunction;
-import com.self.service.function.MenuFunction;
+import com.self.service.function.util.ImageFunctionUtil;
+import com.self.service.function.util.MenuBtnFunctionUtil;
+import com.self.service.function.util.MenuFunctionUtil;
+import com.self.service.settings.WebSetting;
 
 public class TestMenu {
-
-	@Ignore
-	@Test
-	public void testMenu() {
-		System.out.println(MenuFunction.getMainMenuList());
-	}
 
 	@Test
 	public void testMenuCaching() {
 		// Obtain the menu list directly first.
-		String menuList = MenuFunction.getMainMenuList();
-		String menuList2 = MenuFunction.getMainMenuList();
+		String menuList = MenuFunctionUtil.getInstance().getMenuList(WebSetting.INTRO_MENU);
 
-		// See that the address directory must be the same.
-		Assert.assertTrue(menuList.hashCode() == menuList2.hashCode());
-		// Let's refresh and make a new
-		MenuListCache.getInstance().refreshCache();
-		menuList2 = MenuFunction.getMainMenuList();
-		
 		System.out.println(menuList);
 		
-		// Both address directory will not be the same. Psst thinking of using intern.
-		Assert.assertFalse(menuList == menuList2);
+		Assert.assertEquals("[{\"menuId\":2,\"menu\":{\"menuId\":2,\"toolTip\":\"All about us\",\"textDisplay\":\"About Us\",\"linkURI\":\"./webby/webpage/about/\",\"enumTypeId\":4},\"level\":0,\"levelOrder\":0},{\"menuId\":3,\"menu\":{\"menuId\":3,\"toolTip\":\"Site Design\",\"textDisplay\":\"Architecture\",\"linkURI\":\"./webby/webpage/architecture/\",\"enumTypeId\":4},\"level\":0,\"levelOrder\":1},{\"menuId\":4,\"menu\":{\"menuId\":4,\"toolTip\":\"Contact Us\",\"textDisplay\":\"Contact Us\",\"linkURI\":\"./webby/webpage/about/#contactus\",\"enumTypeId\":4},\"level\":0,\"levelOrder\":2},{\"menuId\":11,\"menu\":{\"menuId\":11,\"toolTip\":\"Status on created site\",\"textDisplay\":\"Blog\",\"linkURI\":\"./webby/webpage/blog/\",\"enumTypeId\":4},\"level\":0,\"levelOrder\":3}]",
+				menuList);
 	}
 	
 	@Test
 	public void testImageResult() {
 		// Obtain the menu list directly first.
-		String imageNameList = ImageFunction.getIntroImages();
+		String imageNameList = ImageFunctionUtil.getInstance().getIntroImage();
 		
 		System.out.println(imageNameList);
 		
@@ -47,7 +34,7 @@ public class TestMenu {
 	
 	@Test
 	public void testMenuBtn() {
-		String menuBtn = MenuFunction.getIntroBtnMenu();
+		String menuBtn = MenuBtnFunctionUtil.getInstance().getMenuBtn("1");
 		
 		System.out.println(menuBtn);
 		

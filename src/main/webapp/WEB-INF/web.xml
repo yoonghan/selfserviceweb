@@ -35,7 +35,6 @@
 			<el-ignored>false</el-ignored>
 			<scripting-invalid>false</scripting-invalid>
 			<is-xml>false</is-xml>
-			<include-prelude>/template/preludeTagLib.jspf</include-prelude>
 		</jsp-property-group>
 	</jsp-config>
 	<welcome-file-list>
