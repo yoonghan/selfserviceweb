@@ -3,21 +3,24 @@ package com.self.service.function.util;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
 
+
 //import com.google.gson.Gson;
 //import com.google.gson.GsonBuilder;
 import com.self.care.store.jdbi.caches.MenuListCache;
 //import com.self.care.store.jdbi.entity.EnumType;
 //import com.self.care.store.jdbi.entity.MenuBean;
 import com.self.care.store.jdbi.entity.MenuListBean;
+import com.self.service.logging.impl.Log;
+import com.self.service.logging.log.LogFactory;
 //import com.self.service.function.entity.MenuListObject;
-import com.self.service.logging.log.LogUtil;
 //import com.self.service.settings.WebSetting;
 import com.self.service.util.gson.CustomGson;
 
 public class MenuFunctionUtil extends AbstractCacheFunction<List<MenuListBean>, String>{
 	
 	private final String CLASS_NAME = "com.self.service.function.MenuFunctionUtil";
-
+	private final Log log = LogFactory.getLogger(CLASS_NAME);
+	
 //	private final String ORDERLIST = "ul";
 //	private final String LIST = "li";
 //	private final int FIRST_INDEX = 0;
@@ -43,7 +46,7 @@ public class MenuFunctionUtil extends AbstractCacheFunction<List<MenuListBean>, 
 			List<MenuListBean> menuBean = MenuListCache.getInstance().getValue(MENU_GROUP_ID);
 			listReturn = getCache(CLASS_NAME, menuBean, MENU_GROUP_ID);
 		} catch (ExecutionException e) {
-			LogUtil.getInstance(CLASS_NAME).warn("No records returned for:" + MENU_GROUP_ID);
+			log.warn("No records returned for:" + MENU_GROUP_ID);
 		}
 
 		return listReturn;
@@ -51,7 +54,6 @@ public class MenuFunctionUtil extends AbstractCacheFunction<List<MenuListBean>, 
 	
 	@Override
 	protected String contructHtmlCode(List<MenuListBean> menuList) {
-		System.out.println(menuList.get(0));
 		return CustomGson.toGson(menuList);
 	}
 

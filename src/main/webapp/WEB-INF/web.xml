@@ -20,12 +20,42 @@
             <param-name>javax.ws.rs.Application</param-name>
             <param-value>com.self.service.rest.application.RestApplication</param-value>
         </init-param>
-
+    </servlet>
+    
+    <servlet>
+        <servlet-name>AOuthSender</servlet-name>
+        <servlet-class>
+            com.self.service.servlet.authentication.OAuthSenderServlet
+        </servlet-class>
+        <init-param>
+        	<param-name>gmailCallback</param-name>
+        	<param-value>http://localhost:8080/selfserviceweb/service/AOuthCallback</param-value>
+        </init-param>
+    </servlet>
+    <servlet>
+        <servlet-name>AOuthCallback</servlet-name>
+        <servlet-class>
+            com.self.service.servlet.authentication.OAuthCallbackServlet
+        </servlet-class>
+        <init-param>
+        	<param-name>gmailCallback</param-name>
+        	<param-value>http://localhost:8080/selfserviceweb/service/AOuthCallback</param-value>
+        </init-param>
     </servlet>
 
     <servlet-mapping>
         <servlet-name>rest</servlet-name>
         <url-pattern>/rest/*</url-pattern>
+    </servlet-mapping>
+    
+    <!-- all services must be logged in -->
+    <servlet-mapping>
+        <servlet-name>AOuthCallback</servlet-name>
+        <url-pattern>/service/AOuthCallback</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>AOuthSender</servlet-name>
+        <url-pattern>/service/AOuthSender</url-pattern>
     </servlet-mapping>
 
 	<jsp-config>

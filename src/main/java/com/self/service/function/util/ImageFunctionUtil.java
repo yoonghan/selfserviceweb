@@ -5,7 +5,9 @@ import java.util.concurrent.ExecutionException;
 
 import com.self.care.store.jdbi.caches.ImageCategoryCache;
 import com.self.care.store.jdbi.entity.ImageBean;
-import com.self.service.logging.log.LogUtil;
+import com.self.service.logging.impl.Log;
+import com.self.service.logging.log.LogFactory;
+
 import static com.self.service.settings.WebSetting.*;
 
 public class ImageFunctionUtil extends AbstractCacheFunction<List<ImageBean>, String>{
@@ -13,6 +15,7 @@ public class ImageFunctionUtil extends AbstractCacheFunction<List<ImageBean>, St
 	private final static int ESTIMATED_MEMORY_USE=1;
 	private final String FADE_TIME="1000";
 	
+	private final Log log = LogFactory.getLogger(getClass().getName());
 	private final String CLASS_NAME = "com.self.service.function.ImageFunctionUtil";
 	
 	private static final class Singleton{
@@ -35,7 +38,7 @@ public class ImageFunctionUtil extends AbstractCacheFunction<List<ImageBean>, St
 			List<ImageBean> imageBean = ImageCategoryCache.getInstance().getValue(INTRO_CATEGORY);
 			introImageHtmlCode = getCache(CLASS_NAME, imageBean, INTRO_CATEGORY);
 		} catch (ExecutionException e) {
-			LogUtil.getInstance(CLASS_NAME).warn("No records returned for:" + INTRO_CATEGORY);
+			log.warn("No records returned for:" + INTRO_CATEGORY);
 		}
 		
 		return introImageHtmlCode;

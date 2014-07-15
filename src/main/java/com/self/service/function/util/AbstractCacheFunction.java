@@ -3,8 +3,7 @@ package com.self.service.function.util;
 import java.util.concurrent.ConcurrentHashMap;
 
 import com.self.service.function.entity.HtmlTagCacheObject;
-import com.self.service.logging.log.LogUtil;
-import com.self.service.mbean.util.MBeanUtility;
+import com.self.service.logging.log.LogFactory;
 
 public abstract class AbstractCacheFunction<T, V> {
 	
@@ -23,7 +22,7 @@ public abstract class AbstractCacheFunction<T, V> {
 			if(cacheObj == null 
 					|| cacheObj.getHashCode() != cacheBean.hashCode()){
 				htmlTag = createHtmlTag(cacheBean, cacheObj, key);
-				LogUtil.getInstance(CLASS_NAME).info("Object created.");
+				LogFactory.getLogger(CLASS_NAME).info("Object created.");
 			}else{
 				htmlTag = cacheObj.getHtmlTag();
 			}

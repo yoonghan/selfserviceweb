@@ -14,4 +14,7 @@ public interface WebSetting {
 	public final static String CSS_MENU_TITLE="JOM Jaring";
 	public final static String CSS_MENU_CLASS="menuTitle";
 	
+	public final static String APPLICATION_NAME = "JomJaring/1.0";
+	public final static String OAUTH_CALLBACK_NAME = "gmailCallback";
+	
 }
