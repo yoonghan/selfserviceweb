@@ -1,16 +1,17 @@
 package com.self.service.function.util;
 
-import java.util.List;
 import java.util.concurrent.ExecutionException;
 
+import com.google.common.collect.ImmutableList;
 import com.self.care.store.jdbi.caches.ImageCategoryCache;
-import com.self.care.store.jdbi.entity.ImageBean;
+import com.self.care.store.jdbi.entity.immutable.ImmutableImageBean;
+import com.self.care.store.jdbi.entity.immutable.ImmutableImageList;
 import com.self.service.logging.impl.Log;
 import com.self.service.logging.log.LogFactory;
 
 import static com.self.service.settings.WebSetting.*;
 
-public class ImageFunctionUtil extends AbstractCacheFunction<List<ImageBean>, String>{
+public class ImageFunctionUtil extends AbstractCacheFunction<ImmutableImageList, String>{
 	
 	private final static int ESTIMATED_MEMORY_USE=1;
 	private final String FADE_TIME="1000";
@@ -35,7 +36,7 @@ public class ImageFunctionUtil extends AbstractCacheFunction<List<ImageBean>, St
 		String introImageHtmlCode="";
 		
 		try {
-			List<ImageBean> imageBean = ImageCategoryCache.getInstance().getValue(INTRO_CATEGORY);
+			ImmutableImageList imageBean = ImageCategoryCache.getInstance().getValue(INTRO_CATEGORY);
 			introImageHtmlCode = getCache(CLASS_NAME, imageBean, INTRO_CATEGORY);
 		} catch (ExecutionException e) {
 			log.warn("No records returned for:" + INTRO_CATEGORY);
@@ -44,10 +45,11 @@ public class ImageFunctionUtil extends AbstractCacheFunction<List<ImageBean>, St
 		return introImageHtmlCode;
 	}
 	
-	protected String contructHtmlCode(List<ImageBean> imagebean) {
+	protected String contructHtmlCode(ImmutableImageList immutableImageBean) {
+		ImmutableList<ImmutableImageBean> imageBean = immutableImageBean.getArrayObject();
 		StringBuilder sbImageSrc = new StringBuilder(500);
 		sbImageSrc.append("{\"backgrounds\":[");
-		for(ImageBean image: imagebean){
+		for(ImmutableImageBean image: imageBean){
 			sbImageSrc.append("{\"src\":\"")
 					.append(IMAGE_LOCATION)
 					.append(image.getURI())
@@ -58,7 +60,7 @@ public class ImageFunctionUtil extends AbstractCacheFunction<List<ImageBean>, St
 				.append("}").append(",");
 			
 		}
-		if(imagebean.size() > 1){
+		if(imageBean.size() > 1){
 			//remove last comma.
 			sbImageSrc.deleteCharAt(sbImageSrc.length()-1);
 		}
@@ -66,8 +68,4 @@ public class ImageFunctionUtil extends AbstractCacheFunction<List<ImageBean>, St
 		sbImageSrc.append("]}");
 		return sbImageSrc.toString();
 	}
-
-//	private String replaceSpecialChar(String name) {
-//		return name.replaceAll("\"", "\\\""); //escape double quote to \"
-//	}
 }

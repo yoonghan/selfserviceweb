@@ -1,7 +1,7 @@
 package com.self.service.factory.authentication;
 
 public enum EnumAuthenticationType {
-	GMAIL("G"),
+	GOOGLE("G"),
 	FACEBOOK("F");
 	
 	private String id = null;

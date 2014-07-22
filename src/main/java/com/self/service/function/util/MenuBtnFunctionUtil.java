@@ -3,12 +3,12 @@ package com.self.service.function.util;
 import java.util.concurrent.ExecutionException;
 
 import com.self.care.store.jdbi.caches.MenuCache;
-import com.self.care.store.jdbi.entity.MenuBean;
+import com.self.care.store.jdbi.entity.immutable.ImmutableMenuBean;
 import com.self.service.logging.impl.Log;
 import com.self.service.logging.log.LogFactory;
 import com.self.service.util.gson.CustomGson;
 
-public class MenuBtnFunctionUtil extends AbstractCacheFunction<MenuBean, String>{
+public class MenuBtnFunctionUtil extends AbstractCacheFunction<ImmutableMenuBean, String>{
 	
 	private final String CLASS_NAME = "com.self.service.function.MenuBtnFunctionUtil";
 	private final Log log = LogFactory.getLogger(CLASS_NAME);
@@ -30,7 +30,7 @@ public class MenuBtnFunctionUtil extends AbstractCacheFunction<MenuBean, String>
 		String htmlBtn = "";
 
 		try {
-			MenuBean menuBean = MenuCache.getInstance().getValue(BTN_ID);
+			ImmutableMenuBean menuBean = MenuCache.getInstance().getValue(BTN_ID);
 			htmlBtn = getCache(CLASS_NAME, menuBean, BTN_ID);
 		} catch (ExecutionException e) {
 			log.warn("No records returned for:" + BTN_ID);
@@ -39,7 +39,8 @@ public class MenuBtnFunctionUtil extends AbstractCacheFunction<MenuBean, String>
 		return htmlBtn;
 	}
 	
-	protected String contructHtmlCode(MenuBean menuBean) {
+	protected String contructHtmlCode(ImmutableMenuBean menuBean) {
 		return CustomGson.toGson(menuBean);
 	}
+
 }

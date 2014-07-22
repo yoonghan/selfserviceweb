@@ -16,5 +16,6 @@ public interface WebSetting {
 	
 	public final static String APPLICATION_NAME = "JomJaring/1.0";
 	public final static String OAUTH_CALLBACK_NAME = "gmailCallback";
-	
+
+	public final static String CALLBACK_URL = "http://service.jomjaring.com/service/AOuthCallback";
 }

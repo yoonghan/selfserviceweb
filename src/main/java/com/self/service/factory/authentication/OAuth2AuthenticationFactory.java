@@ -5,6 +5,7 @@ import com.self.service.logging.log.LogFactory;
 import com.self.service.util.authentication.facebook.FacebookAuthentication;
 import com.self.service.util.authentication.google.GoogleAuthentication;
 import com.self.service.util.impl.IOAuthImpl;
+import static com.self.service.settings.WebSetting.*;
 
 public class OAuth2AuthenticationFactory {
 	
@@ -13,14 +14,12 @@ public class OAuth2AuthenticationFactory {
 	private static GoogleAuthentication googleAuthenticate = null;
 	private static FacebookAuthentication facebookAuthenticate = null;
 	
-	private static final String CALLBACK_URL = "http://localhost:8080/selfserviceweb/service/AOuthCallback";
-	
 	public static IOAuthImpl getOAuth(EnumAuthenticationType type){
 		
 		IOAuthImpl oauth = null;
 		
 		switch(type){
-			case GMAIL:
+			case GOOGLE:
 				oauth = getGMailAuthentication();
 				break;
 			case FACEBOOK:

@@ -4,7 +4,7 @@ import java.sql.Timestamp;
 
 import com.self.care.store.jdbi.entity.UserBean;
 import com.self.service.util.authentication.facebook.FacebookUserInfoEntity;
-import com.self.service.util.authentication.google.GmailUserInfoEntity;
+import com.self.service.util.authentication.google.GoogleUserInfoEntity;
 
 public class AuthUserToUserBuilder {
 	
@@ -14,9 +14,13 @@ public class AuthUserToUserBuilder {
 		this.userBean = userBean;
 	}
 	
+	public UserBean getUserBean(){
+		return userBean;
+	}
+	
 	public static class Builder{
 		
-		GmailUserInfoEntity gmailUserInfo = null;
+		GoogleUserInfoEntity gmailUserInfo = null;
 		FacebookUserInfoEntity facebookUserInfo = null;
 		UserBean userBean = null;
 		
@@ -26,7 +30,7 @@ public class AuthUserToUserBuilder {
 		}
 		
 		public Builder setGoogleJSON(String json){
-			gmailUserInfo = new GmailUserInfoEntity.Builder().setJSON(json).build();
+			gmailUserInfo = new GoogleUserInfoEntity.Builder().setJSON(json).build();
 			return this;
 		}
 		
@@ -35,7 +39,7 @@ public class AuthUserToUserBuilder {
 			return this;
 		}
 		
-		public Builder setGoogleObject(GmailUserInfoEntity gmailUserInfo){
+		public Builder setGoogleObject(GoogleUserInfoEntity gmailUserInfo){
 			this.gmailUserInfo = gmailUserInfo;
 			return this;
 		}
@@ -49,7 +53,7 @@ public class AuthUserToUserBuilder {
 			if(gmailUserInfo  == null)
 				return "";
 			
-			return gmailUserInfo.getEmail();
+			return gmailUserInfo.getId();
 		}
 		
 		public String getFacebookUserId(){
@@ -88,9 +92,10 @@ public class AuthUserToUserBuilder {
 				userBean.setFacebookAuthId(facebookUserInfo.getId());
 				userBean.setFacebookLink(facebookUserInfo.getLink());
 				userBean.setFacebookGender(facebookUserInfo.getGender());
+				
 				if(userBean.getName() == null){
 					userBean.setName(facebookUserInfo.getName());
-					userBean.setIdentity(facebookUserInfo.getName());
+					userBean.setIdentity(facebookUserInfo.getName());	
 				}
 
 				if(userBean.getEmail() == null && facebookUserInfo.getEmail() != null)
@@ -102,9 +107,5 @@ public class AuthUserToUserBuilder {
 			
 			return new AuthUserToUserBuilder(userBean);
 		}
-	}
-	
-	public UserBean getUserBean(){
-		return userBean;
 	}
 }
