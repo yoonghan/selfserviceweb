@@ -4,10 +4,10 @@ import junit.framework.Assert;
 
 import org.junit.Test;
 
-import com.self.service.function.util.ImageFunctionUtil;
-import com.self.service.function.util.MenuBtnFunctionUtil;
-import com.self.service.function.util.MenuFunctionUtil;
-import com.self.service.settings.WebSetting;
+import com.jaring.jom.function.util.ImageFunctionUtil;
+import com.jaring.jom.function.util.MenuBtnFunctionUtil;
+import com.jaring.jom.function.util.MenuFunctionUtil;
+import com.jaring.jom.settings.WebSetting;
 
 public class TestMenu {
 

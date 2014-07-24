@@ -18,14 +18,14 @@
         </servlet-class>
         <init-param>
             <param-name>javax.ws.rs.Application</param-name>
-            <param-value>com.self.service.rest.application.RestApplication</param-value>
+            <param-value>com.jaring.jom.rest.application.RestApplication</param-value>
         </init-param>
     </servlet>
     
     <servlet>
         <servlet-name>AOuthSender</servlet-name>
         <servlet-class>
-            com.self.service.servlet.authentication.OAuthSenderServlet
+            com.jaring.jom.servlet.authentication.OAuthSenderServlet
         </servlet-class>
         <init-param>
         	<param-name>gmailCallback</param-name>
@@ -35,7 +35,7 @@
     <servlet>
         <servlet-name>AOuthCallback</servlet-name>
         <servlet-class>
-            com.self.service.servlet.authentication.OAuthCallbackServlet
+            com.jaring.jom.servlet.authentication.OAuthCallbackServlet
         </servlet-class>
         <init-param>
         	<param-name>gmailCallback</param-name>
