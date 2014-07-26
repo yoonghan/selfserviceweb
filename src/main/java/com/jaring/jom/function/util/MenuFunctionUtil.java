@@ -2,21 +2,11 @@ package com.jaring.jom.function.util;
 
 import java.util.concurrent.ExecutionException;
 
-
-
-
-
-
-
-
-
-
-
-
 import com.jaring.jom.logging.impl.Log;
 import com.jaring.jom.logging.log.LogFactory;
 import com.jaring.jom.store.jdbi.caches.DBCache;
-import com.jaring.jom.store.jdbi.entity.immutable.ImmutableMenuList;
+import com.jaring.jom.store.jdbi.entity.immutable.ImmutableCustomList;
+import com.jaring.jom.store.jdbi.entity.immutable.ImmutableMenuListBean;
 import com.jaring.jom.util.gson.CustomGson;
 //import com.google.gson.Gson;
 //import com.google.gson.GsonBuilder;
@@ -24,7 +14,7 @@ import com.jaring.jom.util.gson.CustomGson;
 //import com.self.care.store.jdbi.entity.EnumType;
 //import com.self.care.store.jdbi.entity.MenuBean;
 
-public class MenuFunctionUtil extends AbstractCacheFunction<ImmutableMenuList, String>{
+public class MenuFunctionUtil extends AbstractCacheFunction<ImmutableCustomList<ImmutableMenuListBean>, String>{
 	
 	private final String CLASS_NAME = "com.jaring.jom.function.MenuFunctionUtil";
 	private final Log log = LogFactory.getLogger(CLASS_NAME);
@@ -51,7 +41,7 @@ public class MenuFunctionUtil extends AbstractCacheFunction<ImmutableMenuList, S
 		String listReturn = "";
 
 		try {
-			ImmutableMenuList menuBean = DBCache.INSTANCE.getMenuList().getValue(MENU_GROUP_ID);
+			ImmutableCustomList<ImmutableMenuListBean> menuBean = DBCache.INSTANCE.getMenuList().getValue(MENU_GROUP_ID);
 			listReturn = getCache(CLASS_NAME, menuBean, MENU_GROUP_ID);
 		} catch (ExecutionException e) {
 			log.warn("No records returned for:" + MENU_GROUP_ID);
@@ -61,8 +51,8 @@ public class MenuFunctionUtil extends AbstractCacheFunction<ImmutableMenuList, S
 	}
 	
 	@Override
-	protected String contructHtmlCode(ImmutableMenuList menuList) {
-		return CustomGson.toGson(menuList.getArrayObject());
+	protected String contructHtmlCode(ImmutableCustomList<ImmutableMenuListBean> menuList) {
+		return CustomGson.toGson(menuList.getList());
 	}
 
 //	/**
