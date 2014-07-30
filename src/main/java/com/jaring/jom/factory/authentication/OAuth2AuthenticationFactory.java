@@ -2,8 +2,8 @@ package com.jaring.jom.factory.authentication;
 
 import com.jaring.jom.logging.impl.Log;
 import com.jaring.jom.logging.log.LogFactory;
-import com.jaring.jom.util.authentication.facebook.FacebookAuthentication;
-import com.jaring.jom.util.authentication.google.GoogleAuthentication;
+import com.jaring.jom.util.authentication.FacebookAuthentication;
+import com.jaring.jom.util.authentication.GoogleAuthentication;
 import com.jaring.jom.util.impl.IOAuthImpl;
 
 import static com.jaring.jom.settings.WebSetting.*;

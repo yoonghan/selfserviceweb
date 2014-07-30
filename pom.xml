@@ -18,7 +18,6 @@
 		<maven.compiler.target>1.7</maven.compiler.target>
 		<self.service.db.version>1.0.0</self.service.db.version>
 		<self.service.mbean.version>1.0.0</self.service.mbean.version>
-		<jstl.version>1.2</jstl.version>
 		<jjutility.version>1.0.0</jjutility.version>
 		<self.service.log.version>1.0.0</self.service.log.version>
 		<profile.directory>C:/SelfProject/IDE/workspace/profile</profile.directory>
@@ -53,7 +52,7 @@
 		</dependency>
 		<dependency>
 			<groupId>jom.jaring</groupId>
-			<artifactId>jjutility</artifactId>
+			<artifactId>JomJaringUtilities_scala</artifactId>
 			<version>${jjutility.version}</version>
 			<scope>compile</scope>
 		</dependency>

@@ -7,8 +7,6 @@ import com.jaring.jom.logging.impl.Log;
 import com.jaring.jom.logging.log.LogFactory;
 import com.jaring.jom.util.common.PropertyLoaderUtil;
 
-import static com.jaring.jom.util.impl.PropertyFiles.*;
-
 /**
  * Make this class to load every time, but do not store it into memory.
  * Not worth.
@@ -18,18 +16,18 @@ public class CommonProperties{
 	
 	private Log  log = LogFactory.getLogger(CommonProperties.class.getName());
 	
+	private final String COMMON_PROP = "common.properties";
 	private String callbackURL;
 	private String callbackRedirectURL;
 	
 	CommonProperties(){
-		PropertyLoaderUtil propUtil = new PropertyLoaderUtil();
 		try {
 			Properties prop = new Properties();
-			prop.load(propUtil.fileLoader(COMMON_PROP));
+			prop.load(PropertyLoaderUtil.fileLoader(COMMON_PROP));
 			
 			map(prop);
 			
-		} catch (ClassNotFoundException | IOException e) {
+		} catch (IOException e) {
 			log.error("File not found:",e);
 		}
 	}

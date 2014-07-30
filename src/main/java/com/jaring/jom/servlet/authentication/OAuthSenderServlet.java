@@ -8,7 +8,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import com.google.common.base.Optional;
+import scala.Option;
+
 import com.jaring.jom.factory.authentication.EnumAuthenticationType;
 import com.jaring.jom.factory.authentication.OAuth2AuthenticationFactory;
 import com.jaring.jom.logging.impl.Log;
@@ -40,7 +41,7 @@ public class OAuthSenderServlet extends HttpServlet{
 		String reqType = req.getParameter("type");
 		EnumAuthenticationType type = EnumAuthenticationType.getById(reqType);
 		
-		Optional<String> url = Optional.absent();
+		Option<String> url = Option.empty();
 		
 		if(type != null){
 			IOAuthImpl ioImpl = OAuth2AuthenticationFactory.getOAuth(type);
@@ -53,7 +54,7 @@ public class OAuthSenderServlet extends HttpServlet{
 			log.info("Redirecting for:-"+url.get());
 		}
 		
-		if(url.isPresent()){
+		if(url.isDefined()){
 			resp.sendRedirect(url.get());
 		}else{
 			resp.sendError(505);

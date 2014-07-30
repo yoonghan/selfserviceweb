@@ -10,6 +10,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import scala.Option;
+
 import com.google.common.base.Optional;
 import com.jaring.jom.factory.authentication.AuthUserToUserBuilder;
 import com.jaring.jom.factory.authentication.EnumAuthenticationType;
@@ -19,9 +21,11 @@ import com.jaring.jom.logging.log.LogFactory;
 import com.jaring.jom.settings.WebSetting;
 import com.jaring.jom.store.jdbi.dao.DBDAO;
 import com.jaring.jom.store.jdbi.entity.UserBean;
-import com.jaring.jom.util.authentication.facebook.FacebookUserInfoEntity;
-import com.jaring.jom.util.authentication.google.GoogleUserInfoEntity;
-import com.jaring.jom.util.impl.IOAuthImpl;
+import com.jaring.jom.util.authentication.EnumAuthentication;
+import com.jaring.jom.util.authentication.FacebookAuthentication;
+import com.jaring.jom.util.authentication.FacebookUserInfoEntity;
+import com.jaring.jom.util.authentication.GoogleAuthentication;
+import com.jaring.jom.util.authentication.GoogleUserInfoEntity;
 
 public class OAuthCallbackServlet extends HttpServlet {
 
@@ -46,8 +50,6 @@ public class OAuthCallbackServlet extends HttpServlet {
 	protected void processRequest(HttpServletRequest req, HttpServletResponse resp)
 			throws ServletException, IOException {
 		
-		super.doGet(req, resp);
-		
 		final HttpSession session = req.getSession(false);
 		final String authCode = req.getParameter("code");
 		final String tokenKey = req.getParameter(TOKEN_KEY);
@@ -59,9 +61,9 @@ public class OAuthCallbackServlet extends HttpServlet {
 			EnumAuthenticationType type = checkTokenKey(tokenKey);
 			
 			if(type != null){
-				Optional<String> json = OAuth2AuthenticationFactory.getOAuth(type).getUserInfoJson(authCode);
+				Option<String> json = OAuth2AuthenticationFactory.getOAuth(type).getUserInfoJson(authCode);
 				
-				if(json.isPresent()){
+				if(json.isDefined()){
 					log.info("Received user information for token:"+authCode);
 					
 					parseJSONToCreateUser(json.get(), type);
@@ -71,13 +73,11 @@ public class OAuthCallbackServlet extends HttpServlet {
 			}
 		}
 		
-		if(allOk == false){
-			resp.sendError(505);
-		}else{
-			log.info("Redirecting to:"+WebSetting.CALLBACK_REDIRECT_URL);
-			resp.sendRedirect(WebSetting.CALLBACK_REDIRECT_URL);
-		}
-		
+		resp.sendRedirect(WebSetting.CALLBACK_REDIRECT_URL + 
+				((allOk==false)?
+						"?error=true"
+						:""));
+				
 	}
 
 	public void parseJSONToCreateUser(String json, EnumAuthenticationType type) {
@@ -90,14 +90,14 @@ public class OAuthCallbackServlet extends HttpServlet {
 		switch(type){
 		case GOOGLE:
 			typeId = 1;
-			GoogleUserInfoEntity gmailUserInfoEntity = new GoogleUserInfoEntity.Builder().setJSON(json).build();
+			GoogleUserInfoEntity gmailUserInfoEntity = GoogleAuthentication.getUserInfo(json);
 			authUser = new AuthUserToUserBuilder.Builder().setGoogleObject(gmailUserInfoEntity);
 			userBean = DBDAO.INSTANCE.getUser().getUserViaGoogle(authUser.getGoogleUserId());
 			doUpdateOrInsert = compareSameGoogleAcct(gmailUserInfoEntity, userBean);
 			break;
 		case FACEBOOK:
 			typeId = 2;
-			FacebookUserInfoEntity facebookUserInfoEntity = new FacebookUserInfoEntity.Builder().setJSON(json).build();
+			FacebookUserInfoEntity facebookUserInfoEntity = FacebookAuthentication.getUserInfo(json);
 			authUser = new AuthUserToUserBuilder.Builder().setFacebookObject(facebookUserInfoEntity);
 			userBean = DBDAO.INSTANCE.getUser().getUserViaFacebook(authUser.getFacebookUserId());
 			doUpdateOrInsert = compareSameFacebookAcct(facebookUserInfoEntity, userBean);
@@ -141,9 +141,10 @@ public class OAuthCallbackServlet extends HttpServlet {
 	}
 
 	private EnumAuthenticationType checkTokenKey(String tokenKey) {
-		if (tokenKey.startsWith(IOAuthImpl.FACEBOOK_KEY))
+		
+		if (tokenKey.startsWith(EnumAuthentication.FACEBOOK_TOKEN().toString()))
 			return EnumAuthenticationType.FACEBOOK;
-		if (tokenKey.startsWith(IOAuthImpl.GOOGLE_KEY))	
+		if (tokenKey.startsWith(EnumAuthentication.GOOGLE_TOKEN().toString()))	
 			return EnumAuthenticationType.GOOGLE;
 		return null;
 	}

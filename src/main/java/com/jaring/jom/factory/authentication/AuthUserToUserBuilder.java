@@ -3,8 +3,10 @@ package com.jaring.jom.factory.authentication;
 import java.sql.Timestamp;
 
 import com.jaring.jom.store.jdbi.entity.UserBean;
-import com.jaring.jom.util.authentication.facebook.FacebookUserInfoEntity;
-import com.jaring.jom.util.authentication.google.GoogleUserInfoEntity;
+import com.jaring.jom.util.authentication.FacebookAuthentication;
+import com.jaring.jom.util.authentication.FacebookUserInfoEntity;
+import com.jaring.jom.util.authentication.GoogleAuthentication;
+import com.jaring.jom.util.authentication.GoogleUserInfoEntity;
 
 public class AuthUserToUserBuilder {
 	
@@ -30,12 +32,12 @@ public class AuthUserToUserBuilder {
 		}
 		
 		public Builder setGoogleJSON(String json){
-			gmailUserInfo = new GoogleUserInfoEntity.Builder().setJSON(json).build();
+			gmailUserInfo = GoogleAuthentication.getUserInfo(json);
 			return this;
 		}
 		
 		public Builder setFacebookJSON(String json){
-			facebookUserInfo = new FacebookUserInfoEntity.Builder().setJSON(json).build();
+			facebookUserInfo = FacebookAuthentication.getUserInfo(json);
 			return this;
 		}
 		
